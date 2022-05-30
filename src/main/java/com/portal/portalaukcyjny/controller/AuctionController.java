@@ -2,8 +2,7 @@ package com.portal.portalaukcyjny.controller;
 
 import com.portal.portalaukcyjny.entity.Auction;
 import com.portal.portalaukcyjny.repository.AuctionRepository;
-import com.portal.portalaukcyjny.repository.UserRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -12,22 +11,22 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.Optional;
 
+import static com.portal.portalaukcyjny.utility.Utility.AUCTION_CLOSED;
+
 @CrossOrigin
 @Controller
+@AllArgsConstructor
 @RequestMapping(path="/auction")
 public class AuctionController {
-    @Autowired
-    private AuctionRepository auctionRepository;
 
-    @Autowired
-    private UserRepository userRepository;
+    private AuctionRepository auctionRepository;
 
     @GetMapping(path="/getAuctionsPage")
     public @ResponseBody Page<Auction> getAuctionsPage(@RequestParam Integer pageNumber,
-                                            @RequestParam Integer pageSize) {
+                                                       @RequestParam Integer pageSize) {
         Pageable auctionsPage = PageRequest.of(pageNumber, pageSize);
 
-        return auctionRepository.findAllByActive(Boolean.TRUE, auctionsPage);
+        return auctionRepository.findAllByActive(1, auctionsPage);
     }
 
     @GetMapping(path="/getAuction")
@@ -39,10 +38,10 @@ public class AuctionController {
     @PutMapping(path="/closeAuction")
     public @ResponseBody String closeAuction(@RequestParam Integer auctionId) {
         auctionRepository.findById(auctionId).map(auction -> {
-            auction.setActive(Boolean.FALSE);
+            auction.setActive(0);
             return auctionRepository.save(auction);
         });
-        return "OK";
+        return AUCTION_CLOSED + auctionId;
     }
 
 

@@ -1,16 +1,25 @@
 package com.portal.portalaukcyjny.entity;
 
+import lombok.Getter;
+import lombok.Setter;
+
+import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Table;
 
 @Entity
+@Table(name = "transaction")
+@Getter
+@Setter
 public class Transaction {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "id", nullable = false)
     private Integer id;
-    private Integer affectedUserId;
-    private Float amount;
+
+    @Column(name = "amount", nullable = false)
+    private Double amount;
+
+    @Column(name = "operation_type", nullable = false, length = 45)
     private String operationType;
 }

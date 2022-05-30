@@ -9,5 +9,5 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface AuctionRepository extends PagingAndSortingRepository<Auction, Integer> {
-    Page<Auction> findAllByActive(Boolean active, Pageable auctionsPage);
+    Page<Auction> findAllByActive(int active, Pageable auctionsPage);
 }
