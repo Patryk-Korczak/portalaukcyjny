@@ -51,4 +51,7 @@ public class Auction {
 
     @Column(name = "pickup", nullable = false)
     private Integer pickup;
+
+    @Column(name = "itemSent", nullable = false)
+    private Integer itemSent;
 }
